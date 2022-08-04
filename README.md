@@ -48,3 +48,18 @@ We can check the DEF(Design Exchage Format) file for more information related to
 ![image](https://user-images.githubusercontent.com/33130256/182775077-8817b10d-e166-4c06-a415-123ffe0ad0b1.png)
 
 Here we can see that the yellow highlighted area shows the actual area of my die which is 660.685 µm X 671.405 µm. 
+
+#### Viewing Floorplan in Magic
+To view our floorplan in Magic we need to provide three files as input:
+
+-Magic technology file (sky130A.tech)
+-Merged LEF file (cell lef + tech lef)
+-Def file of floorplan that we saw after running floorplan
+
+![image](https://user-images.githubusercontent.com/33130256/182835028-46fc9248-3190-498c-bda4-facebf2de879.png)
+
+If evrything works fine then the following window will open.
+
+
+
+
