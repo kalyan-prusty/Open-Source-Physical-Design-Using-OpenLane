@@ -43,3 +43,8 @@ After the synthesis we can do the floor planning by running the following comman
 ```
 On successfull run of the command the terminal looks as:
 ![image](https://user-images.githubusercontent.com/33130256/182763186-06558fb9-f749-42e0-82e6-54d7a3d31719.png)
+
+We can check the DEF(Design Exchage Format) file for more information related to floorplan. A DEF file contains the design-specific information of the circuit and it is a representation of the design at any point during the physical design. This looks like this 
+![image](https://user-images.githubusercontent.com/33130256/182775077-8817b10d-e166-4c06-a415-123ffe0ad0b1.png)
+
+Here we can see that the yellow highlighted area shows the actual area of my die which is 660.685 µm X 671.405 µm. 
