@@ -32,3 +32,14 @@ When there is a sudden change in current supply at that particular point the vol
 The problem of Ground and supply bounce can be removed if if we have multiple power supply or sink for charging and discharging respectively. Power planning is a step in which power grid network is created to distribute power and ground to each part of the design symmetrically. This will reduce IR drop and charge accumulation at a particular ground resulting high noise margine and signal integity. 
 
 ##### Pin Placement
+Pin placement decides timing delays and number of buffers required in the whole core which inturn decreases the power consumption as number of buffer used decreased. In general the input pins which are inputs of a particular block are placed near the block. Clock nets are thicker than the normal routing wire as these wires mainly drive the whole design continuously hence a low resistance path is required. Before placement and routing we logically block the space in the I/O ring area which discriminate core and I/O area.
+
+So in floor planning step we are going to set the core & die area, set aspect ratio, plan the power grid, place the pins of our design.
+
+### Lab
+After the synthesis we can do the floor planning by running the following command in openlane.
+```
+%run_floorplan
+```
+On successfull run of the command the terminal looks as:
+![image](https://user-images.githubusercontent.com/33130256/182763186-06558fb9-f749-42e0-82e6-54d7a3d31719.png)
