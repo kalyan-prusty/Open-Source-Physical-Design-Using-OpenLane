@@ -60,6 +60,10 @@ To view our floorplan in Magic we need to provide three files as input:
 
 If evrything works fine then the following window will open.
 
+![image](https://user-images.githubusercontent.com/33130256/182837264-897e8cbf-1ae5-461d-b67e-a11fcd3fbc3d.png)
 
+This following image shows that the horizontal pins are in 3rd metal layer.
 
+![image](https://user-images.githubusercontent.com/33130256/182839954-508fcab3-1e77-4485-8f31-d6b88e395d2f.png)
+ 
 
