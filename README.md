@@ -111,4 +111,4 @@ This contains all the information like area, delay, threshold voltage & power co
 The above image shows the standard cell design flow and what are the steps involved in finding out the cell related information. All the input, design steps and output of the steps are mentioned above. All the input data is used in most of the design steps.
 CDL (Circuit Description Language) file is the outpur of Circuit design step. Similarlly layout design provides us GDSII [to be used by the foundry], LEF[whole layout information], CIR file (Extracted spice Netlist). Timing, noise and power related information about the cell is derived in the charecterization step in the .lib format.
 
-
+## Day 3 - Design library cell using Magic Layout and ngspice characterization
