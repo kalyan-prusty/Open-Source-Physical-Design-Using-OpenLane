@@ -109,6 +109,33 @@ This contains all the information like area, delay, threshold voltage & power co
 ![image](https://user-images.githubusercontent.com/33130256/182932162-bea087d5-1078-48d9-821c-0cc420d78d81.png)
 
 The above image shows the standard cell design flow and what are the steps involved in finding out the cell related information. All the input, design steps and output of the steps are mentioned above. All the input data is used in most of the design steps.
+
 CDL (Circuit Description Language) file is the outpur of Circuit design step. Similarlly layout design provides us GDSII [to be used by the foundry], LEF[whole layout information], CIR file (Extracted spice Netlist). Timing, noise and power related information about the cell is derived in the charecterization step in the .lib format.
 
 ## Day 3 - Design library cell using Magic Layout and ngspice characterization
+
+### Lab - 1
+All the variables/switches can be changed on the way while running openlane. OpenLane uses one tool named IOPlacer for proper placement of the IO pins arround the chip. After changing the IOplacer format the floorplan will look like
+![waveform](https://user-images.githubusercontent.com/33130256/182995556-b4ce6cc4-28ae-433e-bd86-22e4c861c0f8.png)
+
+RED: I/O pins are present
+GREEN: I/O pins are not present
+
+### Theory - 1
+##### CMOS Inverter 
+CMOS cells have five modes of operation:
+
+- NMOS Cutoff PMOS Linear 
+- NMOS Saturation PMOS Linear 
+- NMOS Saturation PMOS Saturation 
+- NMOS Linear PMOS Saturation 
+- NMOS Linear PMOS Cutoff 
+
+Thershold voltage is the voltage at which Vin = Vout. Threshold voltage is a function of the W/L ratio of a device, therefore varying the W/L ratio will vary the output waveform of CMOS devices and inturn the transfer charecteristic of the device as well. A perfectly symmetrical device will have a switching threshold such that Vin = Vout = VDD/2 which is achieved when (W/L)p is approximatly 2.5 times (W/L)n.
+
+
+### Lab - 2
+
+##### Magic Layout View of Inverter Standard Cell
+
+
