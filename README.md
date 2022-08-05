@@ -209,6 +209,71 @@ ext2spice
 and from the above image it is confirmed that we have the .spice file with us.
 ![image](https://user-images.githubusercontent.com/33130256/183027987-d44be707-eef7-448f-87ec-ddf24a8fee84.png)
 
+After this edit the spice file to include the relevent library, sources and command to run thew simulation/
+```
+.option scale= 0.01u
+.include ./libs/pshort.lib
+.include ./libs/nshort.lib
+
+//.subckt sky130_inv A Y VPWR VGND
+M0 Y A VGND VGND nshort_model.0 ad=0 pd=0 as=0 ps=0 w=35 l=23
+M1 Y A VPWR VPWR pshort_model.0  ad=0 pd=0 as=0 ps=0 w=37 l=23
+
+VDD VPWR 0 3.3V
+VSS VGND 0 0V
+Va A VGND PULSE(0V 3.3V 0 0.1ns 0.1ns 2ns 4ns)
+
+C0 A VPWR 0.07fF
+C1 A Y 0.05fF
+C2 Y VPWR 0.11fF
+C3 Y VGND 0.24fF
+C4 VPWR VGND 0.59fF
+//.ends
+
+
+.tran 1n 20n
+
+.control
+run
+.endc
+.end
+```
+
+If everything goes fine then the following window will pop up asking for ngspice command.
+![image](https://user-images.githubusercontent.com/33130256/183133768-06e13727-0820-41e8-97e8-e6a26ac73bfb.png)
+
+Execute plot command to observe the following plot
+![image](https://user-images.githubusercontent.com/33130256/183133312-e8dfc8f6-470b-4d4e-9796-84c8215c6e28.png)
+
+Now the timing charecterization can be easily calculated.
+1. Fall Delay: Time between input rise to output fall
+![image](https://user-images.githubusercontent.com/33130256/183134230-fe059e6c-6d65-4e65-9a11-307e98844f01.png)
+![image](https://user-images.githubusercontent.com/33130256/183134460-09b2ed60-0374-4f29-b2cd-45f55a9122ac.png)
+```
+tdf = 0.003 ns
+```
+
+2. Rise Delay: Time between input fall to output rise
+
+![image](https://user-images.githubusercontent.com/33130256/183135025-e3cb6504-3b94-47cd-866f-e346da967975.png)
+![image](https://user-images.githubusercontent.com/33130256/183135112-a652c18d-cb69-4c6a-b902-f4b8b1c28656.png)
+```
+tdr = 0.028 ns
+```
+
+3. Fall Time: Time required for the output to go from 20% to 80% of VDD
+![image](https://user-images.githubusercontent.com/33130256/183138421-8d04354c-80e9-42e8-aa8e-1d1fe89c1f98.png)
+```
+tr = 0.027 ns
+```
+5. Rise Time: Time required for the output to go from 80% to 20% of VDD
+![image](https://user-images.githubusercontent.com/33130256/183138011-c67393e5-b9de-4785-a330-4dbf7eb90759.png)
+```
+tr = 0.045 ns
+```
+
+This is how the timing charecterization is done for a standard cell.
+
 
 ## Acknowledgements
 - [Kunal Ghosh](https://github.com/kunalg123), Co-founder (VSD Corp. Pvt. Ltd)
