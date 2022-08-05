@@ -1,6 +1,29 @@
 # Open-Source-Physical-Design-Using-OpenLane
 This is an interactive tutorial that i have done during the VSD Advanced Physical Design workshop using OpenLANE.
 
+## Overview of Physical Design flow
+Place and Route (PnR) is the core of any ASIC implementation and Openlane flow integrates into it several key open source tools which perform each of the respective stages of PnR.
+Below are the stages and the respective tools (in ( )) that are called by openlane for the functionalities as described:
+- Synthesis
+  - Generating gate-level netlist ([yosys](https://github.com/YosysHQ/yosys)).
+  - Performing cell mapping ([abc](https://github.com/YosysHQ/yosys)).
+  - Performing pre-layout STA ([OpenSTA](https://github.com/The-OpenROAD-Project/OpenSTA)).
+- Floorplanning
+  - Defining the core area for the macro as well as the cell sites and the tracks ([init_fp](https://github.com/The-OpenROAD-Project/OpenROAD/tree/master/src/init_fp)).
+  - Placing the macro input and output ports ([ioplacer](https://github.com/The-OpenROAD-Project/ioPlacer/)).
+  - Generating the power distribution network ([pdn](https://github.com/The-OpenROAD-Project/pdn/)).
+- Placement
+  - Performing global placement ([RePLace](https://github.com/The-OpenROAD-Project/RePlAce)).
+  - Perfroming detailed placement to legalize the globally placed components ([OpenDP](https://github.com/The-OpenROAD-Project/OpenDP)).
+- Clock Tree Synthesis (CTS)
+  - Synthesizing the clock tree ([TritonCTS](https://github.com/The-OpenROAD-Project/OpenROAD/tree/master/src/TritonCTS)).
+- Routing
+  - Performing global routing to generate a guide file for the detailed router ([FastRoute](https://github.com/The-OpenROAD-Project/FastRoute/tree/openroad)).
+  - Performing detailed routing ([TritonRoute](https://github.com/The-OpenROAD-Project/TritonRoute))
+- GDSII Generation
+  - Streaming out the final GDSII layout file from the routed def ([Magic](https://github.com/RTimothyEdwards/magic)).
+
+## Overview of OpenLane
 OpenLane is a opensource RTL to GDSII flow which has several components starting from OpenROAD, Yosys etc to  Fault, Magic, Netgen and many more that will be discussed in the future sections of this repository. The RTL to GSDII flow consists of following steps shown in the following image.
 ![image](https://user-images.githubusercontent.com/33130256/182671443-4abc6400-5661-44dd-ab7b-9a6ecf0c28f2.png)
 
@@ -99,8 +122,6 @@ If everything goes fine then the following layout is shown.
 
 ![image](https://user-images.githubusercontent.com/33130256/182867679-c2e31181-91ac-4382-a1f6-670ccc83d1ad.png)
 
-Note: Generally Power planning is done in the floorplan stage but in openlane the sequence is little bit different and the power planning is done after CTS stage.
-
 ### Theory - 3
 ##### Standard Cell Library 
 This contains all the information like area, delay, threshold voltage & power consumption etc about different gates, flipflops etc along with their different sizes i.e. different drive strength. 
@@ -137,5 +158,58 @@ Thershold voltage is the voltage at which Vin = Vout. Threshold voltage is a fun
 ### Lab - 2
 
 ##### Magic Layout View of Inverter Standard Cell
+Clone the repo from https://github.com/nickson-jose/vsdstdcelldesign.git. Run the meg file in magic software using the following command
+```
+magic -T sky130A.tech sky130_inv.mag
+```
+![image](https://user-images.githubusercontent.com/33130256/182999348-caf44fd9-30d4-443f-bdcf-435666250456.png)
+
+### Theory - 2
+##### 16-Mask CMOS Process
+- Selecting a substrate
+
+![image](https://user-images.githubusercontent.com/33130256/183001839-f623db13-f5d0-47b2-b15b-a88c972aa37f.png)
+- Create an active region for transistors
+
+![image](https://user-images.githubusercontent.com/33130256/183001387-bd6bdb3d-1881-4aa3-9be7-f669a83aaad5.png)
+- Nwell & Pwell formation using Twin Tub Process
+
+![image](https://user-images.githubusercontent.com/33130256/183002903-84dc7385-cb63-4fc0-8cb3-0ea6eda6fbfd.png)
+- Formation of Gate terminal using polysilicon layer over the oxide & 
+
+![image](https://user-images.githubusercontent.com/33130256/183004080-6787acb9-d392-49ac-8e36-712dd5bc3bfc.png)
+- LDD (Lightly Doped Drain) Formation to avoid hot electron effect and short channel effect 
+
+![image](https://user-images.githubusercontent.com/33130256/183010085-9dac6a95-071b-4273-bd2f-30345046f6d2.png)
+- Source and Drain Formation 
+
+![image](https://user-images.githubusercontent.com/33130256/183011905-c1229a5d-c943-41e5-97a2-b1274ae4aa9d.png)
+- Contact and Interconnect Formation
+
+![image](https://user-images.githubusercontent.com/33130256/183013021-7b694376-d230-4d63-871b-df6cfbdb8a44.png)
+- Higher Level metal layer Formation:
+
+![image](https://user-images.githubusercontent.com/33130256/183015775-04630edc-c22a-4f1b-9f3a-714a8d85d2e5.png)
+
+### Lab - 3
+##### Extract SPICE Netlist from Layout in Magic
+This is done in 2 steps.
+
+Create the extraction file using 
+```
+extract all
+```
+This will create a .ext file and using which we can generate the spice file using the following commands to be used in ngspice for simulation.
+```
+ext2spice cthresh 0 rthresh 0
+ext2spice
+```
+![image](https://user-images.githubusercontent.com/33130256/183026065-1307a83c-2c1d-4268-966a-74ab932c30fb.png)
+
+and from the above image it is confirmed that we have the .spice file with us.
+![image](https://user-images.githubusercontent.com/33130256/183027987-d44be707-eef7-448f-87ec-ddf24a8fee84.png)
 
 
+## Acknowledgements
+- [Kunal Ghosh](https://github.com/kunalg123), Co-founder (VSD Corp. Pvt. Ltd)
+- [Nickson Jose](https://github.com/nickson-jose)
