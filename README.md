@@ -335,6 +335,42 @@ if { [file exists $filename] == 1} {
 Now, let's re run the synthesis and check. So folowing the same steps as explained in Day-2 labs we can run the synthesis for same picorvb32a project but with our inv.
 ![image](https://user-images.githubusercontent.com/33130256/183240573-27cf40fc-b043-41a2-bc75-5b17838943bd.png)
 
+![image](https://user-images.githubusercontent.com/33130256/183256892-d899f2b9-7616-4631-b117-16e706b22c5d.png)
+
+Now, we can see this is violating the timing. 
+
+Steps to remove this timing violation:
+1. Synthesize your design keeping Delay as optimizing criteria insteade of Area.
+2. Enable sizing.
+3. Decrease the maximum fanout so that output capacitance will be decreased and inturn the delay.
+
+All the above changes are made in the synthesis.tcl file located in the openlane/configuration folder.
+
+![image](https://user-images.githubusercontent.com/33130256/183260020-50d467df-746d-43e6-861f-47c6f135aa5d.png)
+
+Now run synthesis again and observe that both wns and tns is redeuced to 0. This same can be confirmed using OpenSTA again.
+make a pre_sta.conf file and put content equivalent to following content
+```
+set_cmd_units -time ns -capacitance pF -current mA -voltage V -resistance kOhm -distance um
+  
+read_liberty -min /home/kalyanprusty/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/sky130_fd_sc_hd__fast.lib
+read_liberty -max /home/kalyanprusty/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/sky130_fd_sc_hd__slow.lib
+read_verilog /home/kalyanprusty/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/03-08_10-12/results/synthesis/picorv32a.synthesis.v
+link_design picorv32a
+read_sdc /home/kalyanprusty/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/my_base.sdc
+
+report_checks -path_delay min_max -fields {slew trans net cap input_pin}
+report_tns
+report_wns
+         
+```
+Now run the following command
+```
+sta pre_sta.conf
+```
+you can observe following results
+![image](https://user-images.githubusercontent.com/33130256/183260551-c122a5e0-d13c-4cca-8099-d07661fd461d.png)
+
 After this we can run floorplan and placement as done before to see the placed design in the magic again.
 
 
