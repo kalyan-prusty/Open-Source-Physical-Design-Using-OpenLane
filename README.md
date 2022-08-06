@@ -276,6 +276,7 @@ This is how the timing charecterization is done for a standard cell.
 
 ## Day 4 - Pre-layout timing analysis and importance of good clock tree
 ##### Lab - 1
+##### Magic to Standard Cell LEF Generation
 PnR is possible just by giving information about the pin placement and metal information, there is no need of providing any information about the logic. This is done by the LEF file (Library Exchange Format) to perform interconnect routing in conjunction to routing guides generated from the PnR flow. This is how the companies do not disclose the logic information to the foundry. 
 
 Before generating the LEF file for our standard cell design we need to ensure that the design we have made is satisfing the foundry requirment i.e. track details. This we can confirm by making a grid in magic with the proper details of the tracks from track.info file as shown below.
@@ -339,8 +340,9 @@ Now, let's re run the synthesis and check. So folowing the same steps as explain
 
 Now, we can see this is violating the timing. 
 
+##### Timing Analysis using OpenSTA
 Steps to remove this timing violation:
-1. Synthesize your design keeping Delay as optimizing criteria insteade of Area.
+1. Synthesize your design keeping Delay as optimizing criteria insteade of Area i.e. changing the SYNTH_STRATEGY
 2. Enable sizing.
 3. Decrease the maximum fanout so that output capacitance will be decreased and inturn the delay.
 
@@ -372,6 +374,15 @@ you can observe following results
 ![image](https://user-images.githubusercontent.com/33130256/183260551-c122a5e0-d13c-4cca-8099-d07661fd461d.png)
 
 After this we can run floorplan and placement as done before to see the placed design in the magic again.
+
+##### Clock Tree Synthesis
+Run the following command to run the CTS in the previous design.
+```
+run_cts
+```
+In the synthesis folder we can see another new netlist as follows:
+![image](https://user-images.githubusercontent.com/33130256/183262420-7d033080-4d25-4462-88a5-034d8f2e24d0.png)
+
 
 
 ## Acknowledgements
