@@ -274,6 +274,69 @@ tr = 0.045 ns
 
 This is how the timing charecterization is done for a standard cell.
 
+## Day 4 - Pre-layout timing analysis and importance of good clock tree
+##### Lab - 1
+PnR is possible just by giving information about the pin placement and metal information, there is no need of providing any information about the logic. This is done by the LEF file (Library Exchange Format) to perform interconnect routing in conjunction to routing guides generated from the PnR flow. This is how the companies do not disclose the logic information to the foundry. 
+
+Before generating the LEF file for our standard cell design we need to ensure that the design we have made is satisfing the foundry requirment i.e. track details. This we can confirm by making a grid in magic with the proper details of the tracks from track.info file as shown below.
+![image](https://user-images.githubusercontent.com/33130256/183233728-7fbe1a5b-8c89-4a4d-9897-4e0cc9bc183f.png)
+The format followed above is 
+```
+<layer-name> <X/Y direction> <track-offset> <track-pitch>
+```
+
+The same info has to be passed to magic tool to form the grid.To create a standard cell LEF from an existing layout, some important aspects need to be taken into consideration.
+
+- The input and ouptut of the cell fall on intersection of the vertical and horizontal tracks (grid lines).
+
+![image](https://user-images.githubusercontent.com/33130256/183236748-95317a3a-d4c8-42a1-87e5-01eda2cfb4b9.png)
+
+- The height of cell  should be an odd multiple of the vertical track pitch [mentioned in the track.info file].
+- The width of cell should be an odd multiple of the horizontal track pitch [mentioned in the track.info file].
+![magic_layout](https://user-images.githubusercontent.com/33130256/183237687-8e7c7fb6-256c-4c13-9eef-8d79d9367493.png)
+
+In the above image we can see the inner rectangle which represents the boundary for PnR and we can confirm from the image that the width and hight of the red rectangle  are odd multiple of x & y pitch respectively.
+
+After the layout of the user-defined cell is made we have to defining port and set correct class and use attributes to each port is the first step which was already done [here](https://github.com/nickson-jose/vsdstdcelldesign/blob/master/README.md). Once the properties are defined then we can go for generation of lef file as follows.
+
+```
+lef write sky130_kalyaninv.lef
+```
+After running the command you will be left with a LEF file which is shown below.
+![image](https://user-images.githubusercontent.com/33130256/183238421-8c41a23e-3123-4228-8124-bc1eff82ddfd.png)
+
+now change the config.tcl file for your project to include the lef file you have made and along with that set the library to include the new standard cell information.After changing the config.tcl file it looks somewhat like
+
+```
+set ::env(DESIGN_NAME) "picorv32a"
+
+set ::env(VERILOG_FILES) "./designs/picorv32a/src/picorv32a.v"
+set ::env(SDC_FILE) "./designs/picorv32a/src/picorv32a.sdc"
+
+set ::env(CLOCK_PERIOD) "5.000"
+set ::env(CLOCK_PORT) "clk"
+
+
+set ::env(CLOCK_NET) $::env(CLOCK_PORT)
+
+set ::env(LIB_SYNTH) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+set ::env(LIB_FASTEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__fast.lib"
+set ::env(LIB_SLOWEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__slow.lib"
+set ::env(LIB_TYPICAL) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+
+set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/src/*.lef]
+
+
+set filename $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/$::env(PDK)_$::env(STD_CELL_LIBRARY)_config.tcl
+if { [file exists $filename] == 1} {
+        source $filename
+}
+```
+Now, let's re run the synthesis and check. So folowing the same steps as explained in Day-2 labs we can run the synthesis for same picorvb32a project but with our inv.
+![image](https://user-images.githubusercontent.com/33130256/183240573-27cf40fc-b043-41a2-bc75-5b17838943bd.png)
+
+After this we can run floorplan and placement as done before to see the placed design in the magic again.
+
 
 ## Acknowledgements
 - [Kunal Ghosh](https://github.com/kunalg123), Co-founder (VSD Corp. Pvt. Ltd)
