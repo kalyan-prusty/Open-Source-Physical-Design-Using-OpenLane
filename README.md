@@ -394,7 +394,7 @@ tr = 0.045 ns
 This is how the timing charecterization is done for a standard cell.
 
 ## Day 4 - Pre-layout timing analysis and importance of good clock tree
-##### Lab - 1
+### Lab - 1
 ##### Magic to Standard Cell LEF Generation
 PnR is possible just by giving information about the pin placement and metal information, there is no need of providing any information about the logic. This is done by the LEF file (Library Exchange Format) to perform interconnect routing in conjunction to routing guides generated from the PnR flow. This is how the companies do not disclose the logic information to the foundry. 
 
