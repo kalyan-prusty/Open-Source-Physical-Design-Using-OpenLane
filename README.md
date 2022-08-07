@@ -46,7 +46,10 @@ Some of designes are only once desiged and repeatedly used in the design. Some o
 
 ##### Decoupling Capacitor
 Decoupling capacitors are placed near to preplaced cells for proper transfer/communication of logic between them as shown in following image. This will charge up to the power supply voltage over time and it will work as a charge reservoir when a transition is needed by the circuit instead of the charge coming from the power supply which may face issue of RL drop over the interconnect wires.
-![image](https://user-images.githubusercontent.com/33130256/182683886-42dde8ea-3f6d-4591-8f22-0e185b610e53.png)
+
+<p align="center" width="100%">
+    <img src="https://user-images.githubusercontent.com/33130256/182683886-42dde8ea-3f6d-4591-8f22-0e185b610e53.png" width=50% height=50%>
+</p>
 
 ##### Ground Bounce and Voltage Droop
 When there is a sudden change in current supply at that particular point the voltage of that point increase or decrease rapidly depending on the direction of current. As change in current is directly proportional to voltage in inductor [electrical equivalent of wire] this can result in a voltage change at particular time. This is called **ground bounce**. The same is also seen at the source/ supply which is called **supply droop**. During charging of all the capacitor at a time multiple capacitors can not be charged to Vdd in 0 time which is seen as a drop in voltage level. This is called **supply/voltage droop**. Things become unpredictable if these levels cross the nise margine level.
@@ -65,10 +68,17 @@ After the synthesis we can do the floor planning by running the following comman
 %run_floorplan
 ```
 On successfull run of the command the terminal looks as:
-![image](https://user-images.githubusercontent.com/33130256/182763186-06558fb9-f749-42e0-82e6-54d7a3d31719.png)
+
+<p align="center" width="100%">
+    <img src="https://user-images.githubusercontent.com/33130256/182763186-06558fb9-f749-42e0-82e6-54d7a3d31719.png" width=50% height=50%>
+</p>
 
 We can check the DEF(Design Exchage Format) file for more information related to floorplan. A DEF file contains the design-specific information of the circuit and it is a representation of the design at any point during the physical design. This looks like this 
-![image](https://user-images.githubusercontent.com/33130256/182775077-8817b10d-e166-4c06-a415-123ffe0ad0b1.png)
+
+<p align="center" width="100%">
+    <img src="https://user-images.githubusercontent.com/33130256/182775077-8817b10d-e166-4c06-a415-123ffe0ad0b1.png" width=50% height=50%>
+</p>
+
 
 Here we can see that the yellow highlighted area shows the actual area of my die which is 660.685 µm X 671.405 µm. 
 
@@ -82,11 +92,18 @@ To view our floorplan in Magic we need to provide three files as input:
 ```
 magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
 ```
-![image](https://user-images.githubusercontent.com/33130256/182835028-46fc9248-3190-498c-bda4-facebf2de879.png)
+
+
+<p align="center" width="100%">
+    <img src="https://user-images.githubusercontent.com/33130256/182835028-46fc9248-3190-498c-bda4-facebf2de879.png">
+</p>
 
 If evrything works fine then the following window will open.
 
-![image](https://user-images.githubusercontent.com/33130256/182837264-897e8cbf-1ae5-461d-b67e-a11fcd3fbc3d.png)
+<p align="center" width="100%">
+    <img src="https://user-images.githubusercontent.com/33130256/182837264-897e8cbf-1ae5-461d-b67e-a11fcd3fbc3d.png" width=50% height=50%>
+</p>
+
 
 This following image shows that the horizontal pins are in 3rd metal layer.
 
@@ -111,7 +128,6 @@ Legalization in placement means the standard cells should be place in a row and 
 ```
 %run_placement
 ```
-![image](https://user-images.githubusercontent.com/33130256/182866007-dd3a5a1d-22f9-459b-90cf-bcb848c6c26b.png)
 
 Again run the same magic command with the def file location changed to def file that is being generated after placement.
 
@@ -127,7 +143,14 @@ If everything goes fine then the following layout is shown.
 This contains all the information like area, delay, threshold voltage & power consumption etc about different gates, flipflops etc along with their different sizes i.e. different drive strength. 
 
 ##### Cell Design Flow
-![image](https://user-images.githubusercontent.com/33130256/182932162-bea087d5-1078-48d9-821c-0cc420d78d81.png)
+
+<p align="center" width="100%">
+    <img src="" width=50% height=50%>
+</p>
+
+<p align="center" width="100%">
+    <img src="https://user-images.githubusercontent.com/33130256/182932162-bea087d5-1078-48d9-821c-0cc420d78d81.png">
+</p>
 
 The above image shows the standard cell design flow and what are the steps involved in finding out the cell related information. All the input, design steps and output of the steps are mentioned above. All the input data is used in most of the design steps.
 
@@ -162,7 +185,9 @@ Clone the repo from https://github.com/nickson-jose/vsdstdcelldesign.git. Run th
 ```
 magic -T sky130A.tech sky130_inv.mag
 ```
-![image](https://user-images.githubusercontent.com/33130256/182999348-caf44fd9-30d4-443f-bdcf-435666250456.png)
+<p align="center" width="100%">
+    <img src="https://user-images.githubusercontent.com/33130256/182999348-caf44fd9-30d4-443f-bdcf-435666250456.png" width=50% height=50%>
+</p>
 
 ### Theory - 2
 ##### 16-Mask CMOS Process
@@ -240,34 +265,58 @@ run
 ```
 
 If everything goes fine then the following window will pop up asking for ngspice command.
-![image](https://user-images.githubusercontent.com/33130256/183133768-06e13727-0820-41e8-97e8-e6a26ac73bfb.png)
+
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/33130256/183133768-06e13727-0820-41e8-97e8-e6a26ac73bfb.png"> 
+</p>
 
 Execute plot command to observe the following plot
 ![image](https://user-images.githubusercontent.com/33130256/183133312-e8dfc8f6-470b-4d4e-9796-84c8215c6e28.png)
 
 Now the timing charecterization can be easily calculated.
 1. Fall Delay: Time between input rise to output fall
-![image](https://user-images.githubusercontent.com/33130256/183134230-fe059e6c-6d65-4e65-9a11-307e98844f01.png)
-![image](https://user-images.githubusercontent.com/33130256/183134460-09b2ed60-0374-4f29-b2cd-45f55a9122ac.png)
+
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/33130256/183134230-fe059e6c-6d65-4e65-9a11-307e98844f01.png"> 
+</p>
+
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/33130256/183134460-09b2ed60-0374-4f29-b2cd-45f55a9122ac.png"> 
+</p>
+
 ```
 tdf = 0.003 ns
 ```
 
 2. Rise Delay: Time between input fall to output rise
 
-![image](https://user-images.githubusercontent.com/33130256/183135025-e3cb6504-3b94-47cd-866f-e346da967975.png)
-![image](https://user-images.githubusercontent.com/33130256/183135112-a652c18d-cb69-4c6a-b902-f4b8b1c28656.png)
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/33130256/183135025-e3cb6504-3b94-47cd-866f-e346da967975.png"> 
+</p>
+
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/33130256/183135112-a652c18d-cb69-4c6a-b902-f4b8b1c28656.png"> 
+</p>
+
 ```
 tdr = 0.028 ns
 ```
 
 3. Fall Time: Time required for the output to go from 20% to 80% of VDD
-![image](https://user-images.githubusercontent.com/33130256/183138421-8d04354c-80e9-42e8-aa8e-1d1fe89c1f98.png)
+
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/33130256/183138421-8d04354c-80e9-42e8-aa8e-1d1fe89c1f98.png"> 
+</p>
+
 ```
 tr = 0.027 ns
 ```
-5. Rise Time: Time required for the output to go from 80% to 20% of VDD
-![image](https://user-images.githubusercontent.com/33130256/183138011-c67393e5-b9de-4785-a330-4dbf7eb90759.png)
+4. Rise Time: Time required for the output to go from 80% to 20% of VDD
+
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/33130256/183138011-c67393e5-b9de-4785-a330-4dbf7eb90759.png"> 
+</p>
+
 ```
 tr = 0.045 ns
 ```
@@ -290,11 +339,17 @@ The same info has to be passed to magic tool to form the grid.To create a standa
 
 - The input and ouptut of the cell fall on intersection of the vertical and horizontal tracks (grid lines).
 
-![image](https://user-images.githubusercontent.com/33130256/183236748-95317a3a-d4c8-42a1-87e5-01eda2cfb4b9.png)
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/33130256/183236748-95317a3a-d4c8-42a1-87e5-01eda2cfb4b9.png"> 
+</p>
+
 
 - The height of cell  should be an odd multiple of the vertical track pitch [mentioned in the track.info file].
 - The width of cell should be an odd multiple of the horizontal track pitch [mentioned in the track.info file].
-![magic_layout](https://user-images.githubusercontent.com/33130256/183237687-8e7c7fb6-256c-4c13-9eef-8d79d9367493.png)
+
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/33130256/183237687-8e7c7fb6-256c-4c13-9eef-8d79d9367493.png"> 
+</p>
 
 In the above image we can see the inner rectangle which represents the boundary for PnR and we can confirm from the image that the width and hight of the red rectangle  are odd multiple of x & y pitch respectively.
 
@@ -304,7 +359,9 @@ After the layout of the user-defined cell is made we have to defining port and s
 lef write sky130_kalyaninv.lef
 ```
 After running the command you will be left with a LEF file which is shown below.
-![image](https://user-images.githubusercontent.com/33130256/183238421-8c41a23e-3123-4228-8124-bc1eff82ddfd.png)
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/33130256/183238421-8c41a23e-3123-4228-8124-bc1eff82ddfd.png"> 
+</p>
 
 now change the config.tcl file for your project to include the lef file you have made and along with that set the library to include the new standard cell information.After changing the config.tcl file it looks somewhat like
 
@@ -334,9 +391,13 @@ if { [file exists $filename] == 1} {
 }
 ```
 Now, let's re run the synthesis and check. So folowing the same steps as explained in Day-2 labs we can run the synthesis for same picorvb32a project but with our inv.
-![image](https://user-images.githubusercontent.com/33130256/183240573-27cf40fc-b043-41a2-bc75-5b17838943bd.png)
 
-![image](https://user-images.githubusercontent.com/33130256/183256892-d899f2b9-7616-4631-b117-16e706b22c5d.png)
+<table border="0">
+   <tr>
+    <td> <img src="https://user-images.githubusercontent.com/33130256/183240573-27cf40fc-b043-41a2-bc75-5b17838943bd.png"> </td>
+    <td> <img src="https://user-images.githubusercontent.com/33130256/183256892-d899f2b9-7616-4631-b117-16e706b22c5d.png"> </td>
+   </tr>
+   </table>
 
 Now, we can see this is violating the timing. 
 
@@ -382,9 +443,94 @@ run_cts
 ```
 In the synthesis folder we can see another new netlist as follows:
 ![image](https://user-images.githubusercontent.com/33130256/183262420-7d033080-4d25-4462-88a5-034d8f2e24d0.png)
+Both the netlist files are different as the one before CTS does not contain the clock b uffers but the one aftyer cts has all the clock buffer information as well.
 
+##### Post-CTS STA Analysis
+OpenLANE has the OpenROAD application integrated into its flow. The OpenROAD application has OpenSTA integrated into its flow. Therefore, we can perform STA analysis from within OpenLANE by invoking OpenROAD. So in the openlane execute the following command to open openroad in openlane
+```
+openroad
+```
 
+Read lef and def files after CTS and make the db.
+1. Reading LEF:
+```
+read_lef /openLANE_flow/designs/picorv32a/runs/03-08_10-12/tmp/merged.lef
+```
+2. Reading DEF:
+```
+read_def /openLANE_flow/designs/picorv32a/runs/03-08_10-12/results/cts/picorv32a.cts.def
+```
+lef file will not change untill you change the technology but the def files change depending on how you add different cells to your design.
+3. Writing a DB:
+```
+write_db pico_cts.db
+```
+4. Read the same DB:
+```
+read_db pico_cts.db
+```
+5. Read the post_cts netlist:
+```
+read_verilog /openLANE_flow/designs/picorv32a/runs/03-08_10-12/results/synthesis/picorv32a.synthesis_cts.v
+```
+6.1. Set the FAST and SLOW library
+```
+read_liberty -max $::env(LIB_SLOWEST)
+read_liberty -min $::env(LIB_FASTEST)
+```
+(or)
+6.2. Set the Typical library
+```
+read_liberty  $::env(LIB_SYNTH_COMPLETE)
+```
+7. Read sdc
+```
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+```
+8. Set propagated clocks
+```
+set_propagated_clock [all_clocks]
+```
+9. Check the reports
+```
+report_checks -path_delay min_max -format full_clock_expanded -digits 4
+```
+The above process checks the design taking the real clocks into consideration. After this if the thing go correct then timings met will be shown.
 
+![image](https://user-images.githubusercontent.com/33130256/183276403-5177d5fc-20f0-4af3-9cc0-ae3a3a186fca.png)
+
+## Day 5 - Routing and GDS generation in RTL2GDS FLow
+
+##### Global and Detailed Routing 
+OpenLANE uses FastRoute as global and TritonRoute as the detailed routing engine for physical implementations of designs. Routing consists of two stages:
+
+Global Routing - first partitions the routing region into tiles and decides tile-to-tile paths for all nets.
+Detailed Routing - the exact tracks and vias for nets after the routing guide is provided.
+
+In openlane these all steps are done by simple execution of following command
+```
+run_routing
+```
+The follwoing image shows routing has been completed without any DRC violation.
+
+![image](https://user-images.githubusercontent.com/33130256/183288422-3721236c-0b1a-4923-9497-1f6079f65b7d.png)
+
+![image](https://user-images.githubusercontent.com/33130256/183288477-bd7397e6-ea5e-4bc8-9ff4-341dd08aed47.png)
+
+##### SPEF Extraction
+After routing we need to get the information about the parasitic information of the routed path as these will also impact the STA analysis. SPEF file is needed to perform sign-off post-route STA analysis. SPEF Extractor has been included in the openlane flow. Following image shows that SPEF file has been generated. There is no need to execute any specific command for this extraction. This file is automatically being generated at the end of routing process.
+
+<table border="0">
+   <tr>
+    <td> <img src="https://user-images.githubusercontent.com/33130256/183288991-fbd484d1-e44e-43c0-97a9-05c24588b4f3.png"> </td>
+    <td> <img src="https://user-images.githubusercontent.com/33130256/183289146-4e31861c-d177-439f-8d46-2cc9e810e4aa.png"> </td>
+   </tr>
+</table>
+   
+## References
+  - [VLSI System Design](https://www.vlsisystemdesign.com/)
+  - [OpenLANE](https://github.com/The-OpenROAD-Project/OpenLane)
+ 
 ## Acknowledgements
 - [Kunal Ghosh](https://github.com/kunalg123), Co-founder (VSD Corp. Pvt. Ltd)
 - [Nickson Jose](https://github.com/nickson-jose)
