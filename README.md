@@ -8,18 +8,30 @@ Below are the stages and the respective tools (in ( )) that are called by openla
   - Generating gate-level netlist ([yosys](https://github.com/YosysHQ/yosys)).
   - Performing cell mapping ([abc](https://github.com/YosysHQ/yosys)).
   - Performing pre-layout STA ([OpenSTA](https://github.com/The-OpenROAD-Project/OpenSTA)).
+  ![image](https://user-images.githubusercontent.com/33130256/183292584-15ee6cb3-a00e-4bca-969d-f20251af47b0.png)
+  
 - Floorplanning
   - Defining the core area for the macro as well as the cell sites and the tracks ([init_fp](https://github.com/The-OpenROAD-Project/OpenROAD/tree/master/src/init_fp)).
   - Placing the macro input and output ports ([ioplacer](https://github.com/The-OpenROAD-Project/ioPlacer/)).
   - Generating the power distribution network ([pdn](https://github.com/The-OpenROAD-Project/pdn/)).
+  
+![image](https://user-images.githubusercontent.com/33130256/183292613-a8c28bfa-9bd2-4e07-a9a6-96d777c1b7cc.png)
+![image](https://user-images.githubusercontent.com/33130256/183292684-7a5c5814-e37a-4b32-8fe1-37831acf3ab0.png)
+
 - Placement
   - Performing global placement ([RePLace](https://github.com/The-OpenROAD-Project/RePlAce)).
   - Perfroming detailed placement to legalize the globally placed components ([OpenDP](https://github.com/The-OpenROAD-Project/OpenDP)).
+ ![image](https://user-images.githubusercontent.com/33130256/183292648-de25e194-583f-4949-b2af-2e268ad9266e.png)
+ 
 - Clock Tree Synthesis (CTS)
   - Synthesizing the clock tree ([TritonCTS](https://github.com/The-OpenROAD-Project/OpenROAD/tree/master/src/TritonCTS)).
+ ![image](https://user-images.githubusercontent.com/33130256/183292782-8621d0ff-15b6-4808-a5d6-e58430cbb4d4.png)
+
 - Routing
   - Performing global routing to generate a guide file for the detailed router ([FastRoute](https://github.com/The-OpenROAD-Project/FastRoute/tree/openroad)).
   - Performing detailed routing ([TritonRoute](https://github.com/The-OpenROAD-Project/TritonRoute))
+![image](https://user-images.githubusercontent.com/33130256/183292795-5ac2b722-75f5-49e9-8676-bf6814020bb3.png)
+
 - GDSII Generation
   - Streaming out the final GDSII layout file from the routed def ([Magic](https://github.com/RTimothyEdwards/magic)).
 
@@ -28,6 +40,64 @@ OpenLane is a opensource RTL to GDSII flow which has several components starting
 ![image](https://user-images.githubusercontent.com/33130256/182671443-4abc6400-5661-44dd-ab7b-9a6ecf0c28f2.png)
 
 ## Day 1 - Inception of open-source EDA, OpenLANE and Sky130 PDK
+Invoke openlane by the following command in the openlane folder. Before that you have enabled docker.
+```
+docker
+```
+A custom shell script or commands can be generated to make the task simpler.
+
+To invoke OpenLANE run the ```./flow.tcl``` script. To use interactive mode use -interactive flag with ./flow.tcl.
+
+``` 
+./flow.tcl -interactive 
+```
+### Lab -1
+The first step after invoking OpenLANE is to import the openlane package of required version. This is done using following command. Here 0.9 is the required version of OpenLANE.
+```
+package require openlane 0.9
+```
+
+##### Design Preparation
+
+The next step is to prepare our design for the OpenLANE flow. This is done using following command:
+```
+prep -design <design-name>
+````
+Some additional flags that can be used while preparation are:
+
+```-tag <name-for-current-run>``` - All the files generated during the flow will be stored in a directory named <name-for-current-run>
+  
+```-overwrite``` - If a directory name mentioned in -tag already exists, it will be overwritten.
+
+<p align="center" width="100%">
+    <img src="https://user-images.githubusercontent.com/33130256/183296023-2ea2019e-2b54-4894-97a2-923094f7d60f.png" width=50% height=50%>
+</p>
+  
+While doing this we merged the technology lef [contains info about metal layer vias etc] and standard cell lef  information together to make a merged.lef file which is located in <design_folder>/runs/tmp/ .
+
+config.tcl in the run tells us about the parameter that needs to be taken by the run. Basically sets a bunch of environment variables.
+
+next step to run_synthesis with yosys and abc scripts. For synthesizing the design run the following command.
+```
+run_synthesis  
+```
+After some time you will see the success window infront of you.
+<p align="center" width="100%">
+    <img src="https://user-images.githubusercontent.com/33130256/183300612-00d9d1d7-e351-4698-aba2-12bde3766d00.png" width=50% height=50%>
+</p>
+
+Now let's count the total number of cells and flops to find the flop ratio.
+
+  <table border="0">
+   <tr>
+    <td> <img src="https://user-images.githubusercontent.com/33130256/183300828-80dea6df-2064-42ca-b7e3-f798e84f0b5a.png"> </td>
+    <td> <img src="https://user-images.githubusercontent.com/33130256/183300837-d997a772-96a7-4916-868f-836b9853f7a5.png"> </td>
+   </tr>
+  </table>
+Total number of Cells: 14876
+Total number of DFF: 1613
+
+Flop Ratio: 1613 / 14876 = 0.108
 
 ## Day 2 - Good floorplan vs bad floorplan and introduction to library cells
 ### Theory - 1
@@ -499,7 +569,7 @@ The above process checks the design taking the real clocks into consideration. A
 
 ![image](https://user-images.githubusercontent.com/33130256/183276403-5177d5fc-20f0-4af3-9cc0-ae3a3a186fca.png)
 
-## Day 5 - Routing and GDS generation in RTL2GDS FLow
+## Day 5 - Final steps for RTL2GDS using tritonRoute and openSTA
 
 ##### Global and Detailed Routing 
 OpenLANE uses FastRoute as global and TritonRoute as the detailed routing engine for physical implementations of designs. Routing consists of two stages:
@@ -534,3 +604,5 @@ After routing we need to get the information about the parasitic information of 
 ## Acknowledgements
 - [Kunal Ghosh](https://github.com/kunalg123), Co-founder (VSD Corp. Pvt. Ltd)
 - [Nickson Jose](https://github.com/nickson-jose)
+- [ShonTaware](https://github.com/ShonTaware)
+- [Grant Brown](https://gitlab.com/gab13c)
